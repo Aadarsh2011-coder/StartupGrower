@@ -215,6 +215,7 @@
 
 
 
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { 
   getAuth, 
@@ -351,6 +352,9 @@ function renderFeed(data) {
         ${item.twitter ? `<p><strong>🐦 Twitter:</strong> <a href="${item.twitter}" target="_blank">${item.twitter}</a></p>` : ""}
         ${item.email ? `<p><strong>📧 Contact:</strong> ${item.email}</p>` : ""}
       </div>
+
+
+    
       
       ${item.tagline ? `<p class="tagline"><strong>💡 Tagline:</strong> ${item.tagline}</p>` : ""}
       
