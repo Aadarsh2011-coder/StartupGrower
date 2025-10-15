@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StartupGrower - Discover & List Innovative Tools</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" type="image/png" sizes="64x64" href="logo64.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png" />
+  <link rel="apple-touch-icon" href="/logo192.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+</head>
+<body>
+  <h1 class="fixed-header">StartupGrower</h1>
+
+  <!-- Profile Menu -->
+  <div class="profile-menu">
+    <div class="profile-icon" id="profileIcon" title="Account">👤</div>
+    <div class="dropdown" id="dropdownMenu">
+      <ul>
+        <li><a href="products.html">Our Products</a></li>
+        <li><a href="submit.html" id="menuSubmitLink">Submit a Tool</a></li>
+        <li><a href="feed.html" id="menuSubmitLink">Feed/Tools</a></li>
+        <li><a href="#" id="menuSignAction">Sign In</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <a href="news.html">News</a>
+    <a href="blogs.html">Blogs</a>
+    <a href="feed.html">Feed/Tools</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">T&C</a>
+    <a href="#" id="topSignLink">Sign In</a>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="welcome-container">
+    <h1>Discover the Next Big Thing</h1>
+    <p>Find and share innovative tools that help startups grow. Join our community of builders and makers.</p>
+    <a href="submit.html" class="cta-button" id="submitNav">Submit Your Tool</a>
+    <a href="feed.html" class="cta-button" id="submitNav">Discover Tools</a>
+  </div>
+
+  <!-- FAQ Section -->
+  <section id="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <button class="faq-question" type="button" aria-expanded="false">
+        Who created this platform? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>StartupGrower is made by Aadarsh Pandey, the founder and lead developer passionate about helping startups succeed.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button" aria-expanded="false">
+        How do I submit my tool? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Simply sign in with your Google account and click on "Submit Your Tool". Fill out the form with your product details, and we'll review it for listing.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button" aria-expanded="false">
+        Is it free to list my product? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes! Basic listings are completely free. We believe in supporting the startup community and making it easy for innovators to showcase their work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign-in Modal -->
+  <div id="signinModal" class="modal" hidden aria-modal="true" role="dialog">
+    <div class="modal-card">
+      <h3>Welcome Back!</h3>
+      <p>Sign in to submit tools, save favorites, and access the Startup Planner chatbot.</p>
+      <div class="modal-actions">
+        <button id="modalSignBtn" class="modal-btn modal-btn-primary">Sign in with Google</button>
+        <button id="modalCloseBtn" class="modal-btn modal-btn-secondary">Maybe Later</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot Icon -->
+  <!-- <button id="chatbot-icon" title="Startup Planner Assistant">💬</button> -->
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="faq.js"></script>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>

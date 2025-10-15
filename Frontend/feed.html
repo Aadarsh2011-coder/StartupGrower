@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StartupGrower Feed</title>
+  <link rel="stylesheet" href="feed.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .filter-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 20px auto;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      align-items: end;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .filter-container select,
+    .filter-container input {
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .filter-container select:focus,
+    .filter-container input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    .filter-container input::placeholder {
+      color: #9ca3af;
+    }
+
+    .results-count {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1>🚀 StartupGrower Feed</h1>
+    <p>Discover the latest tools from founders and makers</p>
+    <button id="signinBtn" class="signin-btn">Sign in with Google</button>
+  </header>
+
+  <main class="container">
+    <div class="filter-container">
+      <div class="filter-group">
+        <label for="sortFilter">Sort By:</label>
+        <select id="sortFilter">
+          <option value="latest">Latest First</option>
+          <option value="votes">Most Upvoted</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="AI Tools">AI Tools</option>
+          <option value="Productivity">Productivity</option>
+          <option value="Developer Tools">Developer Tools</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Design">Design</option>
+          <option value="Analytics">Analytics</option>
+          <option value="SaaS">SaaS</option>
+          <option value="No-Code">No-Code</option>
+          <option value="Automation">Automation</option>
+          <option value="Fintech">Fintech</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Education">Education</option>
+          <option value="E-commerce">E-commerce</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="searchInput">Search by Name:</label>
+        <input type="text" id="searchInput" placeholder="Search startups..." />
+      </div>
+    </div>
+
+    <div class="results-count" id="resultsCount"></div>
+
+    <section id="feed" class="feed">
+      <div class="loading-text">Loading feed...</div>
+    </section>
+  </main>
+
+  <script type="module" src="feed.js"></script>
+</body>
+</html>

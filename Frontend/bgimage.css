@@ -1,0 +1,10 @@
+.bgimage{
+    /* replace with your image path, e.g. /assets/clean_bg.png */
+    background-image: url("bgimage.png");
+    background-size: cover;          /* fill screen */
+    background-position: center;     /* center focal point */
+    background-repeat: no-repeat;    /* no tiling */
+    background-attachment: fixed;    /* static while content scrolls */
+    min-height: 100vh;               /* ensure full height */
+  }
+  
