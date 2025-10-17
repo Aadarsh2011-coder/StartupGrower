@@ -25,8 +25,9 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // Google Sheets Config
+// Replace with these lines in feed.js:
 const SPREADSHEET_ID = "1525cOECoV2sXJjpgrjicGp6MIREXuxtCRp9Be27MK6w";
-const API_KEY = "AIzaSyDacwIuZ4L-ilVpcb1smt8pJ19TLNj06Eo";
+const API_KEY = "${GOOGLE_SHEETS_API_KEY}";
 const RANGE = "Form responses 1!A:L";
 
 // Apps Script Web App URL

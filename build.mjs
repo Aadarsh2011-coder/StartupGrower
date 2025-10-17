@@ -72,7 +72,7 @@ filesToProcess.forEach(filePath => {
       
       // Replace Google Sheets API key (only in feed.js)
       if (filePath.includes('feed.js')) {
-        content = content.replace(/AIzaSyDacwIuZ4L-ilVpcb1smt8pJ19TLNj06Eo/g, sheetsApiKey);
+        content = content.replace(/\$\{GOOGLE_SHEETS_API_KEY\}/g, sheetsApiKey);
       }
       
       fs.writeFileSync(filePath, content);
