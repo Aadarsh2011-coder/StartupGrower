@@ -1,4 +1,16 @@
+// build.mjs
 import fs from 'fs';
-const key = process.env.FIREBASE_API_KEY;
-let code = fs.readFileSync('auth.js', 'utf8');
-fs.writeFileSync('auth.js', code.replace(/\$\{FIREBASE_API_KEY\}/g, key));
+
+const apiKey = process.env.FIREBASE_API_KEY;
+
+if (!apiKey) {
+  console.error('❌ FIREBASE_API_KEY is not set!');
+  process.exit(1);
+}
+
+const filePath = 'auth.js';
+let content = fs.readFileSync(filePath, 'utf8');
+content = content.replace(/\$\{FIREBASE_API_KEY\}/g, apiKey);
+fs.writeFileSync(filePath, content);
+
+console.log('✅ Replaced ${FIREBASE_API_KEY} with real key.');
