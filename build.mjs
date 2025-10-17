@@ -8,7 +8,7 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const filePath = 'auth.js';
+const filePath = 'Frontend/auth.js';
 let content = fs.readFileSync(filePath, 'utf8');
 content = content.replace(/\$\{FIREBASE_API_KEY\}/g, apiKey);
 fs.writeFileSync(filePath, content);
