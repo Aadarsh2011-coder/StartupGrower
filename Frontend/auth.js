@@ -13,7 +13,8 @@ import {
 
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBJxLH8S259toa65STB7cahCRgnJ8r2Zmg",
+  // apiKey: "AIzaSyBJxLH8S259toa65STB7cahCRgnJ8r2Zmg",
+  apiKey: "${FIREBASE_API_KEY}",
   authDomain: "startupgrower-bf739.firebaseapp.com",
   projectId: "startupgrower-bf739",
   storageBucket: "startupgrower-bf739.appspot.com",
