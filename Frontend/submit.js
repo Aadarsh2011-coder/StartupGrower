@@ -1412,10 +1412,60 @@ const PRICING_PLANS = {
 };
 
 // ===== BADGE SYSTEM =====
+// const BADGE_STYLES = {
+//   colored: {
+//     name: 'Colored',
+//     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+//       <defs>
+//         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+//           <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+//           <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+//         </linearGradient>
+//       </defs>
+//       <rect width="300" height="80" rx="12" fill="url(#bgGradient)"/>
+//       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+//       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+//       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
+//       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">Listed on StartupGrower</text>
+//     </svg>`
+//   },
+//   neutral: {
+//     name: 'Neutral',
+//     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+//       <rect width="300" height="80" rx="12" fill="#f8fafc"/>
+//       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#64748b" stroke-width="2" opacity="0.6"/>
+//       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#64748b" stroke-width="2" opacity="0.6"/>
+//       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
+//       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#475569" text-anchor="middle">Listed on StartupGrower</text>
+//     </svg>`
+//   },
+//   dark: {
+//     name: 'Dark',
+//     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+//       <rect width="300" height="80" rx="12" fill="#1e293b"/>
+//       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#94a3b8" stroke-width="2" opacity="0.6"/>
+//       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#94a3b8" stroke-width="2" opacity="0.6"/>
+//       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
+//       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#f1f5f9" text-anchor="middle">Listed on StartupGrower</text>
+//     </svg>`
+//   },
+//   light: {
+//     name: 'Light',
+//     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+//       <rect width="300" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+//       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
+//       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
+//       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
+//       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">Listed on StartupGrower</text>
+//     </svg>`
+//   }
+// };
 const BADGE_STYLES = {
   colored: {
     name: 'Colored',
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+    svg: `<div style="text-align: center;">
+<a href="https://startupgrower.pages.dev" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;">
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
       <defs>
         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
@@ -1427,40 +1477,53 @@ const BADGE_STYLES = {
       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">Listed on StartupGrower</text>
-    </svg>`
+    </svg>
+</a>
+</div>`
   },
   neutral: {
     name: 'Neutral',
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+    svg: `<div style="text-align: center;">
+<a href="https://startupgrower.pages.dev" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;">
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
       <rect width="300" height="80" rx="12" fill="#f8fafc"/>
       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#64748b" stroke-width="2" opacity="0.6"/>
       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#64748b" stroke-width="2" opacity="0.6"/>
       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#475569" text-anchor="middle">Listed on StartupGrower</text>
-    </svg>`
+    </svg>
+</a>
+</div>`
   },
   dark: {
     name: 'Dark',
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+    svg: `<div style="text-align: center;">
+<a href="https://startupgrower.pages.dev" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;">
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
       <rect width="300" height="80" rx="12" fill="#1e293b"/>
       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#94a3b8" stroke-width="2" opacity="0.6"/>
       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#94a3b8" stroke-width="2" opacity="0.6"/>
       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#f1f5f9" text-anchor="middle">Listed on StartupGrower</text>
-    </svg>`
+    </svg>
+</a>
+</div>`
   },
   light: {
     name: 'Light',
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+    svg: `<div style="text-align: center;">
+<a href="https://startupgrower.pages.dev" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;">
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
       <rect width="300" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
       <path d="M20,25 Q18,30 20,35 Q18,32 16,30 Q18,28 20,25 M20,35 Q18,40 20,45 Q18,42 16,40 Q18,38 20,35" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
       <path d="M280,25 Q282,30 280,35 Q282,32 284,30 Q282,28 280,25 M280,35 Q282,40 280,45 Q282,42 284,40 Q282,38 280,35" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
       <text x="150" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="2" opacity="0.9">STARTUP GROWER</text>
       <text x="150" y="52" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">Listed on StartupGrower</text>
-    </svg>`
+    </svg>
+</a>
+</div>`
   }
 };
-
 let currentBadgeStyle = 'colored';
 
 // ===== PRICING SYSTEM =====
