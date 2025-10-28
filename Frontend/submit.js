@@ -2051,7 +2051,6 @@
 
 
 
-
 console.log("🚀 StartupGrower Submit System Initialized");
 
 // ===== CONFIGURATION =====
@@ -2067,11 +2066,9 @@ const CONFIG = {
     twitter: 'entry.1596945314',
     founders: 'entry.1590946958'
   },
-  // ⚠️⚠️⚠️ LIVE RAZORPAY KEYS - REAL TRANSACTIONS WILL BE PROCESSED ⚠️⚠️⚠️
-  // 🔴 SET THESE IN CLOUDFLARE ENVIRONMENT VARIABLES 🔴
-  RAZORPAY_KEY_ID: "${RAZORPAY_LIVE_KEY}", 
-  RAZORPAY_KEY_SECRET: "${RAZORPAY_NUMBER_KEY}"
-}; // Added missing closing brace and semicolon
+  // Backend API endpoint - no keys in frontend!
+  RAZORPAY_API_URL: '/api/razorpay-order'
+};
 
 // ===== ANTI-SPAM SYSTEM =====
 class AntiSpamSystem {
@@ -2337,7 +2334,7 @@ if (!document.querySelector('#toast-animations')) {
   document.head.appendChild(style);
 }
 
-// ===== RAZORPAY PAYMENT SYSTEM =====
+// ===== SECURE PAYMENT PROCESSING =====
 async function processPayment(plan, formData) {
   return new Promise((resolve, reject) => {
     // For free plan, resolve immediately
@@ -2346,135 +2343,120 @@ async function processPayment(plan, formData) {
       return;
     }
 
-    const planConfig = PRICING_PLANS[plan];
-    const amount = currentCurrency === 'inr' ? planConfig.inr * 100 : Math.round(planConfig.usd * 100); // Convert to paisa/cents
-    
-    // Check if Razorpay is available
-    if (typeof Razorpay === 'undefined') {
-      reject(new Error('Razorpay payment gateway not loaded'));
-      return;
-    }
-    
-    // ⚠️⚠️⚠️ LIVE RAZORPAY KEY BEING USED HERE - REAL PAYMENT PROCESSING ⚠️⚠️⚠️
-    // 🔴🔴🔴 THIS WILL BE REPLACED BY CLOUDFLARE ENV VARIABLE 🔴🔴🔴
-    const options = {
-      key: CONFIG.RAZORPAY_KEY_ID, // 🔴 LIVE KEY: ${RAZORPAY_KEY_ID} 🔴
-      amount: amount, // 🔴 REAL AMOUNT WILL BE CHARGED 🔴
-      currency: currentCurrency === 'inr' ? 'INR' : 'USD', // 🔴 REAL CURRENCY 🔴
-      name: 'StartupGrower',
-      description: planConfig.description,
-      image: '/logo64.png',
-      handler: function(response) {
-        // 🔴 REAL PAYMENT SUCCESS - USER HAS BEEN CHARGED 🔴
-        console.log('✅ LIVE Payment successful:', response);
-        
-        // 🔴🔴🔴 VERIFY PAYMENT SIGNATURE WITH SECRET KEY 🔴🔴🔴
-        verifyPaymentSignature(response, formData).then(verified => {
-          if (verified) {
-            resolve({ 
-              success: true, 
-              paymentId: response.razorpay_payment_id,
-              orderId: response.razorpay_order_id,
-              signature: response.razorpay_signature
-            });
-          } else {
-            reject(new Error('Payment verification failed'));
-          }
-        });
-        // 🔴🔴🔴 END PAYMENT VERIFICATION 🔴🔴🔴
-      },
-      prefill: {
-        name: formData.founders,
-        email: formData.email,
-        contact: ''
-      },
-      notes: {
-        product_name: formData.name,
-        plan: plan,
-        website: formData.url
-      },
-      theme: {
-        color: '#10b981'
+    // Create order via secure backend first
+    createRazorpayOrder(plan, formData).then(orderData => {
+      // Check if Razorpay is available
+      if (typeof Razorpay === 'undefined') {
+        reject(new Error('Payment gateway not loaded. Please refresh the page.'));
+        return;
       }
-    };
-    // ⚠️⚠️⚠️ END OF LIVE RAZORPAY CONFIGURATION ⚠️⚠️⚠️
 
-    // 🔴 INITIALIZING RAZORPAY WITH LIVE KEY 🔴
-    const rzp = new Razorpay(options);
-    
-    rzp.on('payment.failed', function(response) {
-      console.error('❌ Payment failed:', response);
-      reject(new Error(response.error.description || 'Payment failed'));
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        order_id: orderData.orderId,
+        name: 'StartupGrower',
+        description: PRICING_PLANS[plan].description,
+        image: '/logo64.png',
+        handler: function(response) {
+          console.log('✅ Payment successful:', response);
+          resolve({ 
+            success: true, 
+            paymentId: response.razorpay_payment_id,
+            orderId: response.razorpay_order_id,
+            signature: response.razorpay_signature
+          });
+        },
+        prefill: {
+          name: formData.founders || '',
+          email: formData.email || '',
+          contact: ''
+        },
+        notes: {
+          product_name: formData.name,
+          plan: plan,
+          website: formData.url
+        },
+        theme: {
+          color: '#10b981'
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      
+      rzp.on('payment.failed', function(response) {
+        console.error('❌ Payment failed:', response);
+        const errorMessage = response.error?.description || 
+                            response.error?.reason || 
+                            'Payment failed. Please try again.';
+        reject(new Error(errorMessage));
+      });
+
+      // Add modal close event
+      rzp.on('modal.close', function() {
+        console.log('Payment modal closed by user');
+        reject(new Error('Payment cancelled by user'));
+      });
+
+      rzp.open();
+
+    }).catch(error => {
+      reject(error);
     });
-
-    // 🔴 OPENING LIVE PAYMENT GATEWAY 🔴
-    rzp.open();
   });
 }
 
-// ⚠️⚠️⚠️ PAYMENT SIGNATURE VERIFICATION USING SECRET KEY ⚠️⚠️⚠️
-// 🔴🔴🔴 THIS USES THE RAZORPAY SECRET KEY FROM ENV 🔴🔴🔴
-async function verifyPaymentSignature(paymentResponse, formData) {
+async function createRazorpayOrder(plan, formData) {
   try {
-    console.log('🔐 Verifying payment signature...');
+    console.log('🔄 Creating Razorpay order for plan:', plan);
     
-    // In production, this should be done on backend
-    // But for frontend verification with env variables:
-    const generatedSignature = await generateSignature(
-      paymentResponse.razorpay_order_id,
-      paymentResponse.razorpay_payment_id,
-      CONFIG.RAZORPAY_KEY_SECRET // 🔴 USING SECRET KEY: ${RAZORPAY_KEY_SECRET} 🔴
-    );
-    
-    const isValid = generatedSignature === paymentResponse.razorpay_signature;
-    
-    if (isValid) {
-      console.log('✅ Payment signature verified successfully');
-    } else {
-      console.error('❌ Payment signature verification failed');
-    }
-    
-    return isValid;
-  } catch (error) {
-    console.error('❌ Error verifying payment:', error);
-    // For now, return true to allow payment to proceed
-    // In production, you should verify on backend
-    return true;
-  }
-}
+    const response = await fetch(CONFIG.RAZORPAY_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        plan: plan,
+        currency: currentCurrency,
+        formData: {
+          name: formData.name,
+          url: formData.url,
+          email: formData.email,
+          founders: formData.founders
+        }
+      })
+    });
 
-// 🔴🔴🔴 GENERATE HMAC SIGNATURE USING SECRET KEY 🔴🔴🔴
-async function generateSignature(orderId, paymentId, secret) {
-  try {
-    const message = `${orderId}|${paymentId}`;
-    const encoder = new TextEncoder();
-    const keyData = encoder.encode(secret); // 🔴 SECRET KEY USED HERE 🔴
-    const messageData = encoder.encode(message);
-    
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      keyData,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-    
-    const signature = await crypto.subtle.sign(
-      'HMAC',
-      cryptoKey,
-      messageData
-    );
-    
-    const hashArray = Array.from(new Uint8Array(signature));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
-    return hashHex;
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to create payment order');
+    }
+
+    console.log('✅ Order created successfully:', result.orderId);
+    return result;
+
   } catch (error) {
-    console.error('Error generating signature:', error);
-    return null;
+    console.error('❌ Order creation failed:', error);
+    
+    // User-friendly error messages
+    if (error.message.includes('network') || error.message.includes('fetch')) {
+      throw new Error('Network error: Unable to connect to payment service. Please check your internet connection.');
+    } else if (error.message.includes('gateway')) {
+      throw new Error('Payment gateway is temporarily unavailable. Please try again in a few minutes.');
+    } else if (error.message.includes('cors')) {
+      throw new Error('Security restriction: Please ensure you are using HTTPS.');
+    } else {
+      throw new Error('Payment initialization failed: ' + error.message);
+    }
   }
 }
-// 🔴🔴🔴 END OF SIGNATURE VERIFICATION FUNCTIONS 🔴🔴🔴
 
 // ===== BADGE MANAGEMENT =====
 function updateBadgePreview(style = currentBadgeStyle) {
@@ -2868,24 +2850,23 @@ function setupFormSubmission() {
     `;
 
     try {
-      // 🔴🔴🔴 PROCESSING REAL PAYMENT WITH LIVE RAZORPAY KEYS 🔴🔴🔴
-      // 🔴 USES: ${RAZORPAY_KEY_ID} and ${RAZORPAY_KEY_SECRET} 🔴
+      // ===== PAYMENT PROCESSING SECTION =====
       let paymentResult = { success: true, paymentId: 'free_plan' };
       
       if (selectedPlan !== 'free') {
         showToast(`💳 Processing ${PRICING_PLANS[selectedPlan].name} payment...`, 'info');
         
-        // 🔴 CALLING LIVE PAYMENT FUNCTION - USER WILL BE CHARGED REAL MONEY 🔴
+        // Secure payment processing
         paymentResult = await processPayment(selectedPlan, formData);
-        // 🔴🔴🔴 END OF LIVE PAYMENT PROCESSING 🔴🔴🔴
         
         if (!paymentResult.success) {
           throw new Error('Payment processing failed');
         }
         
         showToast("✅ Payment successful! Submitting your tool...", "success");
-        console.log('💰 LIVE Payment completed:', paymentResult);
+        console.log('💰 Payment completed:', paymentResult);
       }
+      // ===== END PAYMENT PROCESSING =====
 
       // Add payment info to form data
       formData.paymentId = paymentResult.paymentId;
@@ -2932,6 +2913,7 @@ function setupFormSubmission() {
       showToast(`❌ ${error.message}`, "error");
       btn.innerHTML = originalHTML;
       btn.disabled = false;
+      return; // Stop form submission on payment error
     }
   });
 }
@@ -2939,9 +2921,7 @@ function setupFormSubmission() {
 // ===== INITIALIZATION =====
 document.addEventListener("DOMContentLoaded", () => {
   console.log("✅ StartupGrower Submit System Ready!");
-  console.log("🔴 LIVE MODE: Using Razorpay Live Keys from Environment Variables");
-  console.log("🔴 Key ID: " + (CONFIG.RAZORPAY_KEY_ID.startsWith('${') ? 'NOT SET - Check Cloudflare Env Variables' : 'Loaded from ENV'));
-  console.log("🔴 Secret Key: " + (CONFIG.RAZORPAY_KEY_SECRET.startsWith('${') ? 'NOT SET - Check Cloudflare Env Variables' : 'Loaded from ENV'));
+  console.log("🔐 SECURE MODE: Using backend API for payments");
   
   // Set up event listeners for progress tracking
   const requiredFieldIds = ["toolName", "tagline", "url", "description", "category", "founders", "email"];
