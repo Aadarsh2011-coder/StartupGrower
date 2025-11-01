@@ -10,7 +10,6 @@ import {
 
 // Firebase Config
 const firebaseConfig = {
-  // apiKey: "AIzaSyBJxLH8S259toa65STB7cahCRgnJ8r2Zmg",
   apiKey: "${FIREBASE_API_KEY}",
   authDomain: "startupgrower-bf739.firebaseapp.com",
   projectId: "startupgrower-bf739",
