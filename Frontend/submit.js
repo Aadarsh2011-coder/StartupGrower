@@ -915,139 +915,12 @@ const CONFIG = {
     category: 'entry.1354375390',
     tags: 'entry.320473220',
     twitter: 'entry.1596945314',
-    founders: 'entry.1590946958'
+    founders: 'entry.1590946958',
+    logo: 'entry.2005620554' // ← ADDED LOGO FIELD
   },
   // Backend API endpoint - no keys in frontend!
   RAZORPAY_API_URL: '/api/razorpay-order'
 };
-
-// ===== FREEIMAGEHOST UPLOAD FUNCTIONALITY =====
-// async function uploadToFreeImageHost(file) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       console.log('📤 Uploading logo to FreeImageHost...');
-      
-//       // FreeImageHost requires form data
-//       const formData = new FormData();
-//       formData.append('source', file);
-//       formData.append('action', 'upload');
-//       formData.append('format', 'json');
-      
-//       fetch('https://freeimage.host/api/1/upload', {
-//         method: 'POST',
-//         body: formData
-//       })
-//       .then(response => {
-//         if (!response.ok) {
-//           throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-//         return response.json();
-//       })
-//       .then(result => {
-//         if (result.status_code === 200) {
-//           console.log('✅ Logo uploaded:', result.image.url);
-//           resolve(result.image.url);
-//         } else {
-//           reject(new Error(result.error?.message || 'Upload failed'));
-//         }
-//       })
-//       .catch(error => {
-//         reject(new Error('Upload failed: ' + error.message));
-//       });
-//     } catch (error) {
-//       reject(new Error('Upload failed: ' + error.message));
-//     }
-//   });
-// }
-
-// function setupLogoUpload() {
-//   const logoUpload = document.getElementById('logoUpload');
-//   const logoPreview = document.getElementById('logoPreview');
-  
-//   if (!logoUpload || !logoPreview) return;
-  
-//   logoUpload.addEventListener('change', async (e) => {
-//     const file = e.target.files[0];
-    
-//     if (!file) return;
-    
-//     // Clear previous status and preview
-//     logoPreview.innerHTML = '';
-    
-//     // Validate file type
-//     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-//     if (!validTypes.includes(file.type)) {
-//       showToast('⚠️ Please select a valid image file (JPEG, PNG, GIF, WebP)', 'error');
-//       return;
-//     }
-    
-//     // Validate file size (max 5MB)
-//     if (file.size > 5 * 1024 * 1024) {
-//       showToast('⚠️ Image must be smaller than 5MB', 'error');
-//       return;
-//     }
-    
-//     // Show local preview
-//     const previewUrl = URL.createObjectURL(file);
-//     const previewImg = document.createElement('img');
-//     previewImg.src = previewUrl;
-//     previewImg.alt = "Logo preview";
-    
-//     logoPreview.appendChild(previewImg);
-    
-//     // Show uploading status
-//     const statusDiv = document.createElement('div');
-//     statusDiv.className = 'upload-status';
-//     statusDiv.innerHTML = '<span>📤 Uploading...</span>';
-//     logoPreview.appendChild(statusDiv);
-    
-//     // Upload to FreeImageHost
-//     try {
-//       logoUpload.classList.add('uploading');
-//       const imageUrl = await uploadToFreeImageHost(file);
-      
-//       // Store the image URL for form submission
-//       let logoUrlInput = document.getElementById('logoUrl');
-//       if (!logoUrlInput) {
-//         logoUrlInput = document.createElement('input');
-//         logoUrlInput.type = 'hidden';
-//         logoUrlInput.id = 'logoUrl';
-//         logoUrlInput.name = 'logoUrl';
-//         logoUpload.parentNode.appendChild(logoUrlInput);
-//       }
-//       logoUrlInput.value = imageUrl;
-      
-//       // Update status
-//       statusDiv.innerHTML = '<span>✅ Logo uploaded!</span>';
-//       statusDiv.className = 'upload-status success';
-      
-//       showToast('✅ Logo uploaded successfully!', 'success');
-      
-//     } catch (error) {
-//       console.error('❌ Logo upload failed:', error);
-      
-//       // Update status
-//       statusDiv.innerHTML = '<span>❌ Upload failed</span>';
-//       statusDiv.className = 'upload-status error';
-      
-//       // Show error details
-//       const errorDetails = document.createElement('div');
-//       errorDetails.style.fontSize = '12px';
-//       errorDetails.style.marginTop = '5px';
-//       errorDetails.style.color = '#991b1b';
-//       errorDetails.textContent = error.message;
-//       statusDiv.appendChild(errorDetails);
-      
-//       showToast('❌ Failed to upload logo: ' + error.message, 'error');
-      
-//       // Keep preview but indicate failure
-//       previewImg.style.opacity = '0.5';
-//     } finally {
-//       logoUpload.classList.remove('uploading');
-//     }
-//   });
-// }
-
 
 // ===== BASE64 IMAGE UPLOAD FUNCTIONALITY =====
 async function uploadLogoAsBase64(file) {
@@ -1150,6 +1023,7 @@ function setupLogoUpload() {
     }
   });
 }
+
 // ===== ANTI-SPAM SYSTEM =====
 class AntiSpamSystem {
   constructor() {
@@ -1818,16 +1692,8 @@ async function submitToGoogleForms(formData) {
       allFounders += ` | Payment ID: ${formData.paymentId}`;
     }
 
-    // Get logo URL if uploaded
-    const logoUrl = document.getElementById('logoUrl')?.value || '';
-    if (logoUrl) {
-      allFounders += ` | Logo: ${logoUrl}`;
-    }
-     const logoBase64 = document.getElementById('logoUrl')?.value || '';
-    if (logoBase64) {
-      allFounders += ` | Has Logo: Yes`;
-      console.log('✅ Logo attached to submission');
-    }
+    // Get logo base64 if uploaded
+    const logoBase64 = document.getElementById('logoUrl')?.value || '';
 
     const fields = [
       { id: CONFIG.ENTRY_IDS.name, value: formData.name },
@@ -1837,9 +1703,12 @@ async function submitToGoogleForms(formData) {
       { id: CONFIG.ENTRY_IDS.category, value: formData.category },
       { id: CONFIG.ENTRY_IDS.tags, value: formData.tags || "" },
       { id: CONFIG.ENTRY_IDS.twitter, value: formData.twitter || "" },
-      { id: CONFIG.ENTRY_IDS.founders, value: allFounders }
+      { id: CONFIG.ENTRY_IDS.founders, value: allFounders },
+      { id: CONFIG.ENTRY_IDS.logo, value: logoBase64 } // ← ADD LOGO FIELD
     ];
 
+    console.log('📊 Submitting fields with logo:', logoBase64 ? 'Yes' : 'No');
+    
     fields.forEach(field => {
       const input = document.createElement('input');
       input.type = 'hidden';
@@ -2013,7 +1882,7 @@ function setupFormSubmission() {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("✅ StartupGrower Submit System Ready!");
   console.log("🔐 SECURE MODE: Using backend API for payments");
-  console.log("🖼️ FreeImageHost logo upload enabled");
+  console.log("🖼️ Logo upload enabled with Google Forms integration");
   
   // Set up event listeners for progress tracking
   const requiredFieldIds = ["toolName", "tagline", "url", "description", "category", "founders", "email"];
