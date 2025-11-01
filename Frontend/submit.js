@@ -922,38 +922,149 @@ const CONFIG = {
 };
 
 // ===== FREEIMAGEHOST UPLOAD FUNCTIONALITY =====
-async function uploadToFreeImageHost(file) {
+// async function uploadToFreeImageHost(file) {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       console.log('📤 Uploading logo to FreeImageHost...');
+      
+//       // FreeImageHost requires form data
+//       const formData = new FormData();
+//       formData.append('source', file);
+//       formData.append('action', 'upload');
+//       formData.append('format', 'json');
+      
+//       fetch('https://freeimage.host/api/1/upload', {
+//         method: 'POST',
+//         body: formData
+//       })
+//       .then(response => {
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         return response.json();
+//       })
+//       .then(result => {
+//         if (result.status_code === 200) {
+//           console.log('✅ Logo uploaded:', result.image.url);
+//           resolve(result.image.url);
+//         } else {
+//           reject(new Error(result.error?.message || 'Upload failed'));
+//         }
+//       })
+//       .catch(error => {
+//         reject(new Error('Upload failed: ' + error.message));
+//       });
+//     } catch (error) {
+//       reject(new Error('Upload failed: ' + error.message));
+//     }
+//   });
+// }
+
+// function setupLogoUpload() {
+//   const logoUpload = document.getElementById('logoUpload');
+//   const logoPreview = document.getElementById('logoPreview');
+  
+//   if (!logoUpload || !logoPreview) return;
+  
+//   logoUpload.addEventListener('change', async (e) => {
+//     const file = e.target.files[0];
+    
+//     if (!file) return;
+    
+//     // Clear previous status and preview
+//     logoPreview.innerHTML = '';
+    
+//     // Validate file type
+//     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+//     if (!validTypes.includes(file.type)) {
+//       showToast('⚠️ Please select a valid image file (JPEG, PNG, GIF, WebP)', 'error');
+//       return;
+//     }
+    
+//     // Validate file size (max 5MB)
+//     if (file.size > 5 * 1024 * 1024) {
+//       showToast('⚠️ Image must be smaller than 5MB', 'error');
+//       return;
+//     }
+    
+//     // Show local preview
+//     const previewUrl = URL.createObjectURL(file);
+//     const previewImg = document.createElement('img');
+//     previewImg.src = previewUrl;
+//     previewImg.alt = "Logo preview";
+    
+//     logoPreview.appendChild(previewImg);
+    
+//     // Show uploading status
+//     const statusDiv = document.createElement('div');
+//     statusDiv.className = 'upload-status';
+//     statusDiv.innerHTML = '<span>📤 Uploading...</span>';
+//     logoPreview.appendChild(statusDiv);
+    
+//     // Upload to FreeImageHost
+//     try {
+//       logoUpload.classList.add('uploading');
+//       const imageUrl = await uploadToFreeImageHost(file);
+      
+//       // Store the image URL for form submission
+//       let logoUrlInput = document.getElementById('logoUrl');
+//       if (!logoUrlInput) {
+//         logoUrlInput = document.createElement('input');
+//         logoUrlInput.type = 'hidden';
+//         logoUrlInput.id = 'logoUrl';
+//         logoUrlInput.name = 'logoUrl';
+//         logoUpload.parentNode.appendChild(logoUrlInput);
+//       }
+//       logoUrlInput.value = imageUrl;
+      
+//       // Update status
+//       statusDiv.innerHTML = '<span>✅ Logo uploaded!</span>';
+//       statusDiv.className = 'upload-status success';
+      
+//       showToast('✅ Logo uploaded successfully!', 'success');
+      
+//     } catch (error) {
+//       console.error('❌ Logo upload failed:', error);
+      
+//       // Update status
+//       statusDiv.innerHTML = '<span>❌ Upload failed</span>';
+//       statusDiv.className = 'upload-status error';
+      
+//       // Show error details
+//       const errorDetails = document.createElement('div');
+//       errorDetails.style.fontSize = '12px';
+//       errorDetails.style.marginTop = '5px';
+//       errorDetails.style.color = '#991b1b';
+//       errorDetails.textContent = error.message;
+//       statusDiv.appendChild(errorDetails);
+      
+//       showToast('❌ Failed to upload logo: ' + error.message, 'error');
+      
+//       // Keep preview but indicate failure
+//       previewImg.style.opacity = '0.5';
+//     } finally {
+//       logoUpload.classList.remove('uploading');
+//     }
+//   });
+// }
+
+
+// ===== BASE64 IMAGE UPLOAD FUNCTIONALITY =====
+async function uploadLogoAsBase64(file) {
   return new Promise((resolve, reject) => {
     try {
-      console.log('📤 Uploading logo to FreeImageHost...');
+      console.log('📤 Converting logo to base64...');
       
-      // FreeImageHost requires form data
-      const formData = new FormData();
-      formData.append('source', file);
-      formData.append('action', 'upload');
-      formData.append('format', 'json');
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Data = e.target.result;
+        console.log('✅ Logo converted to base64');
+        resolve(base64Data);
+      };
       
-      fetch('https://freeimage.host/api/1/upload', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(result => {
-        if (result.status_code === 200) {
-          console.log('✅ Logo uploaded:', result.image.url);
-          resolve(result.image.url);
-        } else {
-          reject(new Error(result.error?.message || 'Upload failed'));
-        }
-      })
-      .catch(error => {
-        reject(new Error('Upload failed: ' + error.message));
-      });
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+      
     } catch (error) {
       reject(new Error('Upload failed: ' + error.message));
     }
@@ -981,9 +1092,9 @@ function setupLogoUpload() {
       return;
     }
     
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      showToast('⚠️ Image must be smaller than 5MB', 'error');
+    // Validate file size (max 2MB for base64 - Google Sheets has limits)
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('⚠️ Image must be smaller than 2MB for optimal performance', 'error');
       return;
     }
     
@@ -998,15 +1109,15 @@ function setupLogoUpload() {
     // Show uploading status
     const statusDiv = document.createElement('div');
     statusDiv.className = 'upload-status';
-    statusDiv.innerHTML = '<span>📤 Uploading...</span>';
+    statusDiv.innerHTML = '<span>📤 Processing logo...</span>';
     logoPreview.appendChild(statusDiv);
     
-    // Upload to FreeImageHost
+    // Convert to base64
     try {
       logoUpload.classList.add('uploading');
-      const imageUrl = await uploadToFreeImageHost(file);
+      const base64Image = await uploadLogoAsBase64(file);
       
-      // Store the image URL for form submission
+      // Store the base64 image for form submission
       let logoUrlInput = document.getElementById('logoUrl');
       if (!logoUrlInput) {
         logoUrlInput = document.createElement('input');
@@ -1015,30 +1126,22 @@ function setupLogoUpload() {
         logoUrlInput.name = 'logoUrl';
         logoUpload.parentNode.appendChild(logoUrlInput);
       }
-      logoUrlInput.value = imageUrl;
+      logoUrlInput.value = base64Image;
       
       // Update status
-      statusDiv.innerHTML = '<span>✅ Logo uploaded!</span>';
+      statusDiv.innerHTML = '<span>✅ Logo ready!</span>';
       statusDiv.className = 'upload-status success';
       
-      showToast('✅ Logo uploaded successfully!', 'success');
+      showToast('✅ Logo processed successfully!', 'success');
       
     } catch (error) {
-      console.error('❌ Logo upload failed:', error);
+      console.error('❌ Logo processing failed:', error);
       
       // Update status
-      statusDiv.innerHTML = '<span>❌ Upload failed</span>';
+      statusDiv.innerHTML = '<span>❌ Processing failed</span>';
       statusDiv.className = 'upload-status error';
       
-      // Show error details
-      const errorDetails = document.createElement('div');
-      errorDetails.style.fontSize = '12px';
-      errorDetails.style.marginTop = '5px';
-      errorDetails.style.color = '#991b1b';
-      errorDetails.textContent = error.message;
-      statusDiv.appendChild(errorDetails);
-      
-      showToast('❌ Failed to upload logo: ' + error.message, 'error');
+      showToast('❌ Failed to process logo: ' + error.message, 'error');
       
       // Keep preview but indicate failure
       previewImg.style.opacity = '0.5';
@@ -1047,7 +1150,6 @@ function setupLogoUpload() {
     }
   });
 }
-
 // ===== ANTI-SPAM SYSTEM =====
 class AntiSpamSystem {
   constructor() {
@@ -1720,6 +1822,11 @@ async function submitToGoogleForms(formData) {
     const logoUrl = document.getElementById('logoUrl')?.value || '';
     if (logoUrl) {
       allFounders += ` | Logo: ${logoUrl}`;
+    }
+     const logoBase64 = document.getElementById('logoUrl')?.value || '';
+    if (logoBase64) {
+      allFounders += ` | Has Logo: Yes`;
+      console.log('✅ Logo attached to submission');
     }
 
     const fields = [
