@@ -50,6 +50,14 @@
         <input class="input" type="text" id="url" placeholder="https://startupgrower.pages.dev" required />
       </div>
 
+      <!-- Logo Upload Section -->
+      <div class="form-group">
+        <label for="logoUpload">🏢 Startup Logo (Optional)</label>
+        <small class="hint">Recommended: Square image, max 5MB (JPEG, PNG, GIF, WebP)</small>
+        <input type="file" id="logoUpload" accept="image/*" class="file-input">
+        <div id="logoPreview" class="logo-previews"></div>
+      </div>
+
       <div class="form-group">
         <label for="description">Description <span class="required">*</span></label>
         <small class="hint">Describe what it does and who it's for (min 20 chars)</small>
@@ -148,148 +156,141 @@
         </div>
       </div>
 
-<div id="pricingSection" style="display: none;">
-  <div class="form-header">
-    <h3 class="form-title">🚀 Boost Your Startup's Visibility</h3>
-    <p class="helper">Pick a plan that fits your startup's growth journey</p>
-  </div>
-
-  <div class="pricing-grid">
-
-    <!-- Free Plan -->
-    <div class="pricing-card" data-plan="free">
-      <div class="plan-header">
-        <h4>Free Launch 🚀</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹0</span>
-          <span class="price" data-currency="usd">$0</span>
+      <div id="pricingSection" style="display: none;">
+        <div class="form-header">
+          <h3 class="form-title">🚀 Boost Your Startup's Visibility</h3>
+          <p class="helper">Pick a plan that fits your startup's growth journey</p>
         </div>
-        <p class="plan-period">Forever Free</p>
-      </div>
-      <ul class="plan-features">
-        <li>Listing in 24 hours</li>
-        <li>Basic "Launched" badge</li>
-        <li>Visible on public feed</li>
-      </ul>
-      <button type="button" class="plan-btn selected" data-plan="free">Selected</button>
-    </div>
 
-    <!-- Starter Plan -->
-    <div class="pricing-card" data-plan="starter">
-      <div class="plan-header">
-        <h4>Starter ⚡</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹99</span>
-          <span class="price" data-currency="usd">$1.20</span>
+        <div class="pricing-grid">
+          <!-- Free Plan -->
+          <div class="pricing-card" data-plan="free">
+            <div class="plan-header">
+              <h4>Free Launch 🚀</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹0</span>
+                <span class="price" data-currency="usd">$0</span>
+              </div>
+              <p class="plan-period">Forever Free</p>
+            </div>
+            <ul class="plan-features">
+              <li>Listing in 24 hours</li>
+              <li>Basic "Launched" badge</li>
+              <li>Visible on public feed</li>
+            </ul>
+            <button type="button" class="plan-btn selected" data-plan="free">Selected</button>
+          </div>
+
+          <!-- Starter Plan -->
+          <div class="pricing-card" data-plan="starter">
+            <div class="plan-header">
+              <h4>Starter ⚡</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹99</span>
+                <span class="price" data-currency="usd">$1.20</span>
+              </div>
+              <p class="plan-period">One-time payment</p>
+            </div>
+            <ul class="plan-features">
+              <li><strong>Listing in 12 hours</strong></li>
+              <li>Highlighted badge on your listing</li>
+              <li>Promotion on X (formerly Twitter)</li>
+              <li><strong>1 custom short post shared by us on X</strong></li>
+              <li>Guaranteed 3-5 upvotes</li>
+            </ul>
+            <button type="button" class="plan-btn" data-plan="starter">Select Starter</button>
+          </div>
+
+          <!-- Growth Plan -->
+          <div class="pricing-card" data-plan="growth">
+            <div class="plan-header">
+              <h4>Growth 🌱</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹199</span>
+                <span class="price" data-currency="usd">$2.40</span>
+              </div>
+              <p class="plan-period">One-time payment</p>
+            </div>
+            <ul class="plan-features">
+              <li><strong>Instant Listing</strong></li>
+              <li>Priority Badge</li>
+              <li>Promotion on X + Reddit</li>
+              <li><strong>1 custom post on X or Reddit crafted by us</strong></li>
+              <li>Guaranteed 5-8 upvotes</li>
+            </ul>
+            <button type="button" class="plan-btn" data-plan="growth">Select Growth</button>
+          </div>
+
+          <!-- Pro Plan -->
+          <div class="pricing-card popular" data-plan="pro">
+            <div class="popular-badge">Popular</div>
+            <div class="plan-header">
+              <h4>Pro 🚀</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹399</span>
+                <span class="price" data-currency="usd">$4.80</span>
+              </div>
+              <p class="plan-period">One-time payment</p>
+            </div>
+            <ul class="plan-features">
+              <li><strong>Instant Featured Listing</strong></li>
+              <li>Verified badge + Priority feed placement</li>
+              <li>Promotion on X, Reddit & Instagram</li>
+              <li><strong>1 detailed post (with image or video) made by us</strong></li>
+              <li><strong>Shared across 2 platforms</strong></li>
+              <li>Guaranteed 10-12 upvotes</li>
+            </ul>
+            <button type="button" class="plan-btn" data-plan="pro">Select Pro</button>
+          </div>
+
+          <!-- Elite Plan -->
+          <div class="pricing-card" data-plan="elite">
+            <div class="plan-header">
+              <h4>Elite 🌟</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹599</span>
+                <span class="price" data-currency="usd">$7.00</span>
+              </div>
+              <p class="plan-period">One-time payment</p>
+            </div>
+            <ul class="plan-features">
+              <li><strong>Instant Featured Listing + All badges</strong></li>
+              <li>Promotion on X, Reddit, Instagram, Threads, <strong>Discord</strong> & YouTube</li>
+              <li><strong>1 detailed post crafted & shared by us on all 3 major platforms</strong></li>
+              <li>Guaranteed 15-20 upvotes</li>
+            </ul>
+            <button type="button" class="plan-btn" data-plan="elite">Select Elite</button>
+          </div>
+
+          <!-- Ultimate Plan -->
+          <div class="pricing-card" data-plan="ultimate">
+            <div class="plan-header">
+              <h4>Ultimate 💎</h4>
+              <div class="price-flip">
+                <span class="price active" data-currency="inr">₹799</span>
+                <span class="price" data-currency="usd">$9.50</span>
+              </div>
+              <p class="plan-period">One-time payment</p>
+            </div>
+            <ul class="plan-features">
+              <li><strong>Instant Featured Listing + Premium badge</strong></li>
+              <li>Promotion on all platforms: X, Reddit, Instagram, Threads, YouTube, Discord & Facebook</li>
+              <li><strong>Custom long post + Video made and promoted by us</strong></li>
+              <li><strong>Priority promotion to our audience for a full week</strong></li>
+              <li><strong>Guaranteed 25-30 upvotes + visibility boost</strong></li>
+            </ul>
+            <button type="button" class="plan-btn" data-plan="ultimate">Select Ultimate</button>
+          </div>
         </div>
-        <p class="plan-period">One-time payment</p>
       </div>
-      <ul class="plan-features">
-        <li><strong>Listing in 12 hours</strong></li>
-        <li>Highlighted badge on your listing</li>
-        <li>Promotion on X (formerly Twitter)</li>
-        <li><strong>1 custom short post shared by us on X</strong></li>
-        <li>Guaranteed 3-5 upvotes</li>
-      </ul>
-      <button type="button" class="plan-btn" data-plan="starter">Select Starter</button>
-    </div>
 
-    <!-- Growth Plan -->
-    <div class="pricing-card" data-plan="growth">
-      <div class="plan-header">
-        <h4>Growth 🌱</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹199</span>
-          <span class="price" data-currency="usd">$2.40</span>
-        </div>
-        <p class="plan-period">One-time payment</p>
-      </div>
-      <ul class="plan-features">
-        <li><strong>Instant Listing</strong></li>
-        <li>Priority Badge</li>
-        <li>Promotion on X + Reddit</li>
-        <li><strong>1 custom post on X or Reddit crafted by us</strong></li>
-        <li>Guaranteed 5-8 upvotes</li>
-      </ul>
-      <button type="button" class="plan-btn" data-plan="growth">Select Growth</button>
-    </div>
-
-    <!-- Pro Plan -->
-    <div class="pricing-card popular" data-plan="pro">
-      <div class="popular-badge">Popular</div>
-      <div class="plan-header">
-        <h4>Pro 🚀</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹399</span>
-          <span class="price" data-currency="usd">$4.80</span>
-        </div>
-        <p class="plan-period">One-time payment</p>
-      </div>
-      <ul class="plan-features">
-        <li><strong>Instant Featured Listing</strong></li>
-        <li>Verified badge + Priority feed placement</li>
-        <li>Promotion on X, Reddit & Instagram</li>
-        <li><strong>1 detailed post (with image or video) made by us</strong></li>
-        <li><strong>Shared across 2 platforms</strong></li>
-        <li>Guaranteed 10-12 upvotes</li>
-      </ul>
-      <button type="button" class="plan-btn" data-plan="pro">Select Pro</button>
-    </div>
-
-    <!-- Elite Plan -->
-    <div class="pricing-card" data-plan="elite">
-      <div class="plan-header">
-        <h4>Elite 🌟</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹599</span>
-          <span class="price" data-currency="usd">$7.00</span>
-        </div>
-        <p class="plan-period">One-time payment</p>
-      </div>
-      <ul class="plan-features">
-        <li><strong>Instant Featured Listing + All badges</strong></li>
-        <li>Promotion on X, Reddit, Instagram, Threads, <strong>Discord</strong> & YouTube</li>
-        <li><strong>1 detailed post crafted & shared by us on all 3 major platforms</strong></li>
-        <li>Guaranteed 15-20 upvotes</li>
-      </ul>
-      <button type="button" class="plan-btn" data-plan="elite">Select Elite</button>
-    </div>
-
-    <!-- Ultimate Plan -->
-    <div class="pricing-card" data-plan="ultimate">
-      <div class="plan-header">
-        <h4>Ultimate 💎</h4>
-        <div class="price-flip">
-          <span class="price active" data-currency="inr">₹799</span>
-          <span class="price" data-currency="usd">$9.50</span>
-        </div>
-        <p class="plan-period">One-time payment</p>
-      </div>
-      <ul class="plan-features">
-        <li><strong>Instant Featured Listing + Premium badge</strong></li>
-        <li>Promotion on all platforms: X, Reddit, Instagram, Threads, YouTube, Discord & Facebook</li>
-        <li><strong>Custom long post + Video made and promoted by us</strong></li>
-        <li><strong>Priority promotion to our audience for a full week</strong></li>
-        <li><strong>Guaranteed 25-30 upvotes + visibility boost</strong></li>
-      </ul>
-      <button type="button" class="plan-btn" data-plan="ultimate">Select Ultimate</button>
-    </div>
-
-  </div>
-</div>
-
-
-  <input type="hidden" id="selectedPlan" name="selectedPlan" value="free" />
-</div>
-
+      <input type="hidden" id="selectedPlan" name="selectedPlan" value="free" />
       <button type="submit" class="submit-btn">Submit Tool</button>
     </form>
   </section>
 </main>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-
 <script src="submit.js"></script>
 </body>
 </html>
