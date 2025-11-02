@@ -1554,7 +1554,7 @@ async function dataUrlToFile(dataUrl, filename = 'logo') {
 
 // ===== CONFIGURATION =====
 const CONFIG = {
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxiimfSSgfUKfA53Dmqe4FfpoWRcfqME1jyd27Kpg1yUtwSiu5fwrseI8O0Ak060Naj/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbySCisZMbn328sXgztEuBKb3aTJWPIFXXF_BVIuIeJ8YC5Dc4lgVO5SwP_FCTCY29ql/exec',
   RAZORPAY_API_URL: '/api/razorpay-order'
 };
 
