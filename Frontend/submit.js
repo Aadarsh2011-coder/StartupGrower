@@ -1911,6 +1911,7 @@ console.log("🚀 StartupGrower Submit System Initialized");
 
 // ===== CONFIGURATION =====
 const CONFIG = {
+  SUBMIT_API_URL: '/api/submit-form', // ← NEW: Backend submission endpoint
   GOOGLE_FORM_URL: 'https://docs.google.com/forms/d/e/1FAIpQLScgLmZOojLBDJRJ8R4LpSox_ykkRI-Hh9G8LIiKKKMI0GM3ow/formResponse',
   ENTRY_IDS: {
     name: 'entry.838045357',
@@ -2668,58 +2669,56 @@ function checkRequiredFields() {
   }
 }
 
-// ===== GOOGLE FORMS SUBMISSION (FIXED) =====
+// ===== GOOGLE SHEETS SUBMISSION VIA BACKEND =====
 async function submitToGoogleForms(formData) {
-  console.log("📤 Submitting to Google Forms...");
+  console.log("📤 Submitting to Google Sheets via backend...");
   try {
-    let allFounders = formData.founders;
-    if (formData.cofounders) allFounders += ` | Co-founders: ${formData.cofounders}`;
-    if (formData.email) allFounders += ` | Email: ${formData.email}`;
-    if (formData.plan) allFounders += ` | Plan: ${formData.plan}`;
-    if (formData.paymentId && formData.paymentId !== 'free_plan') {
-      allFounders += ` | Payment ID: ${formData.paymentId}`;
-    }
-
     // Get logo base64 if uploaded
     const logoBase64 = document.getElementById('logoUrl')?.value || '';
 
-    const formBody = new URLSearchParams();
-    formBody.append(CONFIG.ENTRY_IDS.name, formData.name);
-    formBody.append(CONFIG.ENTRY_IDS.tagline, formData.tagline);
-    formBody.append(CONFIG.ENTRY_IDS.url, formData.url);
-    formBody.append(CONFIG.ENTRY_IDS.description, formData.description);
-    formBody.append(CONFIG.ENTRY_IDS.category, formData.category);
-    formBody.append(CONFIG.ENTRY_IDS.tags, formData.tags || "");
-    formBody.append(CONFIG.ENTRY_IDS.twitter, formData.twitter || "");
-    formBody.append(CONFIG.ENTRY_IDS.founders, allFounders);
-    
-    // Add logo if uploaded (compression ensures it's under 50KB)
-    if (logoBase64) {
-      formBody.append(CONFIG.ENTRY_IDS.logo, logoBase64);
-      console.log('📊 Including compressed logo in submission');
-    }
+    // Prepare data for backend
+    const submitData = {
+      name: formData.name,
+      tagline: formData.tagline,
+      url: formData.url,
+      description: formData.description,
+      category: formData.category,
+      tags: formData.tags || '',
+      twitter: formData.twitter || '',
+      founders: formData.founders,
+      cofounders: formData.cofounders || '',
+      email: formData.email,
+      plan: formData.plan,
+      paymentId: formData.paymentId || '',
+      logoBase64: logoBase64
+    };
 
-    console.log('📊 Submitting to Google Forms...');
+    console.log('📊 Sending data to backend...');
 
-    // Submit to Google Forms with no-cors mode
-    // Note: Browser may show 401/CORS errors - this is normal with no-cors mode
-    // The submission still succeeds and data reaches Google Sheets
-    await fetch(CONFIG.GOOGLE_FORM_URL, {
+    // Submit to backend API
+    const response = await fetch(CONFIG.SUBMIT_API_URL, {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: formBody.toString()
+      body: JSON.stringify(submitData)
     });
 
-    // Success! Data has been submitted to Google Forms
-    // The 401 error you see in console is cosmetic - submission succeeded
-    console.log("✅ Form submitted successfully to Google Sheets (ignore 401 error in console)");
-    return { success: true };
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    if (result.success) {
+      console.log('✅ Data successfully saved to Google Sheets!');
+      return { success: true };
+    } else {
+      throw new Error(result.error || 'Submission failed');
+    }
 
   } catch (error) {
-    console.error("❌ Google Forms submission error:", error);
+    console.error("❌ Submission error:", error);
     return { success: false, error: error.message };
   }
 }
@@ -2885,4 +2884,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initializePricing();
   setupFormSubmission();
   updateProgress();
-});
+})
