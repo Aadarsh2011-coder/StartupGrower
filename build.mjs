@@ -47,6 +47,7 @@ const firebaseApiKey = process.env.FIREBASE_API_KEY;
 const sheetsApiKey = process.env.GOOGLE_SHEETS_API_KEY;
 const razorpaylivekey= process.env.RAZORPAY_LIVE_KEY;
 const razorpaynumberkey= process.env.RAZORPAY_NUMBER_KEY;
+const logokey= process.env.IMGBB_LOGO_API_KEY;
 
 // Check required variables
 if (!firebaseApiKey) {
