@@ -1504,7 +1504,7 @@
 console.log("🚀 StartupGrower Submit System Initialized");
 
 // ===== IMAGE UPLOAD CONFIGURATION =====
-const IMGBB_API_KEY = '6a42ac6202748c034ca5e7cba9ef1723';
+const IMGBB_API_KEY = "${IMGBB_LOGO_API_KEY}";
 
 /**
  * Upload image file to imgBB
