@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -26,6 +26,74 @@
         <select id="sortFilter">
           <option value="latest">Latest First</option>
           <option value="votes">Most Upvoted</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="AI Tools">AI Tools</option>
+          <option value="Productivity">Productivity</option>
+          <option value="Developer Tools">Developer Tools</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Design">Design</option>
+          <option value="Analytics">Analytics</option>
+          <option value="SaaS">SaaS</option>
+          <option value="No-Code">No-Code</option>
+          <option value="Automation">Automation</option>
+          <option value="Fintech">Fintech</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Education">Education</option>
+          <option value="E-commerce">E-commerce</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="searchInput">Search by Name:</label>
+        <input type="text" id="searchInput" placeholder="Search startups..." />
+      </div>
+    </div>
+
+    <div class="results-count" id="resultsCount"></div>
+
+    <section id="feed" class="feed">
+      <div class="loading-text">Loading feed...</div>
+    </section>
+  </main>
+
+  <script type="module" src="feed.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StartupGrower Feed</title>
+  <link rel="stylesheet" href="feed.css" />
+  <link rel="icon" type="image/png" sizes="64x64" href="logo64.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png" />
+  <link rel="apple-touch-icon" href="/logo192.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="header">
+    <h1>🚀 StartupGrower Feed</h1>
+    <p>Discover the latest tools from founders and makers</p>
+    <button id="signinBtn" class="signin-btn">Sign in with Google</button>
+  </header>
+
+  <main class="container">
+    <div class="filter-container">
+      <div class="filter-group">
+        <label for="sortFilter">Sort By:</label>
+        <select id="sortFilter">
+          <option value="latest">Latest First</option>
+          <option value="votes" selected>Most Upvoted</option> <!-- default sort -->
         </select>
       </div>
 
