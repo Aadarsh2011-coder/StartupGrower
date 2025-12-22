@@ -1,3 +1,7 @@
+
+
+<!-- best -->
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +28,6 @@
       <p class="helper">Fill in the details below to submit your tool. Required fields are marked with <span class="required">*</span></p>
     </div>
 
-
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
     </div>
@@ -44,13 +47,12 @@
         </div>
       </div>
 
-      <div class="form-group adorned">
+      <div class="form-group">
         <label for="url">Website URL <span class="required">*</span></label>
         <small class="hint">Include http/https</small>
         <input class="input" type="text" id="url" placeholder="https://startupgrower.pages.dev" required />
       </div>
 
-    
       <div class="form-group">
         <label for="logoUpload">🏢 Startup Logo (Optional)</label>
         <small class="hint">Recommended: Square image, max 5MB (JPEG, PNG, GIF, WebP)</small>
@@ -112,7 +114,6 @@
           <p class="helper">Choose a badge style and add it to your website before submitting</p>
         </div>
 
-     
         <div class="badge-style-selector">
           <h4>Choose Badge Style</h4>
           <div class="badge-options">
@@ -135,23 +136,14 @@
           </div>
         </div>
 
-     
         <div class="badge-preview-container">
           <div id="badgePreview"></div>
           <div class="badge-code-box" id="badgeCodeDisplay"></div>
           <button type="button" onclick="window.copyBadgeCode()" class="copy-badge-btn">Copy Badge Code</button>
         </div>
 
-       
         <div id="badgeConfirmationSection" class="badge-confirmation">
           <label><input type="checkbox" id="badgeConfirmation" required /> I confirm I've added the badge to my website <span class="required">*</span></label>
-          <button type="button" class="verify-badge-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-            </svg>
-            Verify Badge on Website
-          </button>
         </div>
       </div>
 
@@ -162,7 +154,6 @@
         </div>
 
         <div class="pricing-grid">
-        
           <div class="pricing-card" data-plan="free">
             <div class="plan-header">
               <h4>Free Launch 🚀</h4>
@@ -177,7 +168,7 @@
               <li>Basic "Launched" badge</li>
               <li>Visible on public feed</li>
             </ul>
-            <button type="button" class="plan-btn selected" data-plan="free">Selected</button>
+            <button type="button" class="plan-btn selected" data-plan="free">Selected ✓</button>
           </div>
 
           <div class="pricing-card" data-plan="starter">
@@ -199,7 +190,6 @@
             <button type="button" class="plan-btn" data-plan="starter">Select Starter</button>
           </div>
 
-        
           <div class="pricing-card" data-plan="growth">
             <div class="plan-header">
               <h4>Growth 🌱</h4>
@@ -219,7 +209,6 @@
             <button type="button" class="plan-btn" data-plan="growth">Select Growth</button>
           </div>
 
-          
           <div class="pricing-card popular" data-plan="pro">
             <div class="popular-badge">Popular</div>
             <div class="plan-header">
@@ -259,7 +248,6 @@
             <button type="button" class="plan-btn" data-plan="elite">Select Elite</button>
           </div>
 
-       
           <div class="pricing-card" data-plan="ultimate">
             <div class="plan-header">
               <h4>Ultimate 💎</h4>
@@ -293,7 +281,22 @@
 </html> -->
 
 
-<!-- best -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -439,6 +442,34 @@
           <label><input type="checkbox" id="badgeConfirmation" required /> I confirm I've added the badge to my website <span class="required">*</span></label>
         </div>
       </div>
+
+      <!-- Currency Selector Section -->
+<div id="currencySection" style="display: none; margin-bottom: 30px;">
+  <div class="form-header">
+    <h3 class="form-title">💳 Select Payment Method</h3>
+    <p class="helper">Choose your preferred payment currency and gateway</p>
+  </div>
+  
+  <div class="currency-options">
+    <div class="currency-option active" data-gateway="razorpay" data-currency="INR">
+      <div class="currency-icon">🇮🇳</div>
+      <div class="currency-info">
+        <strong>Indian Rupee (INR)</strong>
+        <small>Pay with Razorpay - UPI, Cards, NetBanking</small>
+      </div>
+      <div class="currency-check">✓</div>
+    </div>
+    
+    <div class="currency-option" data-gateway="fastspring" data-currency="USD">
+      <div class="currency-icon">🌎</div>
+      <div class="currency-info">
+        <strong>International (USD/EUR/GBP)</strong>
+        <small>Pay with FastSpring - Global Cards, PayPal</small>
+      </div>
+      <div class="currency-check">✓</div>
+    </div>
+  </div>
+</div>
 
       <div id="pricingSection" style="display: none;">
         <div class="form-header">
